@@ -21,3 +21,7 @@ func initMaze(height, width int) ([][]int, error) {
 	}
 	return field, nil
 }
+
+func initCoordinate(maze [][]int, x, y int) error {
+	return nil
+}
