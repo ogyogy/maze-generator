@@ -71,7 +71,7 @@ func TestInitMaze(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			m := Maze{tt.args.height, tt.args.width, nil}
-			if got := m.initMaze(tt.args.height, tt.args.width); !reflect.DeepEqual(m.Maze, tt.want_maze) || (got != nil && got.Error() != tt.want_err.Error()) {
+			if got := m.InitMaze(tt.args.height, tt.args.width); !reflect.DeepEqual(m.Maze, tt.want_maze) || (got != nil && got.Error() != tt.want_err.Error()) {
 				// 初期生成した迷路の値またはエラーメッセージが想定と異なる場合テスト失敗
 				t.Errorf("field = %v, err = %v, want field = %v, err = %v, %v, %v", m.Maze, got, tt.want_maze, tt.want_err, reflect.DeepEqual(m.Maze, tt.want_maze), errors.Is(got, tt.want_err))
 			}
@@ -151,7 +151,7 @@ func TestGenerateMaze(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			m := Maze{tt.args.height, tt.args.width, nil}
-			if got := m.generateMaze(tt.args.height, tt.args.width, tt.args.x, tt.args.y); got != nil && got.Error() != tt.want.Error() {
+			if got := m.GenerateMaze(tt.args.height, tt.args.width, tt.args.x, tt.args.y); got != nil && got.Error() != tt.want.Error() {
 				// エラーメッセージが想定と異なる場合テスト失敗
 				t.Errorf("got = %v, tt.want = %v", got, tt.want)
 			} else if got == nil && m.Maze[tt.args.y][tt.args.x] == WALL {
@@ -182,7 +182,7 @@ func TestDigMaze(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			m := Maze{5, 5, nil}
-			if got := m.digMaze(tt.args.x, tt.args.y); got != nil {
+			if got := m.DigMaze(tt.args.x, tt.args.y); got != nil {
 				t.Errorf("got != nil")
 			}
 		})

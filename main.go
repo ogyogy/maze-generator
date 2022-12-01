@@ -16,7 +16,7 @@ type Maze struct {
 
 // 迷路を高さheight * 幅widthマスで初期化
 // 高さ、幅はそれぞれ5以上の奇数を指定する必要がある
-func (m *Maze) initMaze(height, width int) error {
+func (m *Maze) InitMaze(height, width int) error {
 	if height < 5 || width < 5 {
 		// 高さまたは幅が5未満の場合エラー
 		// 空のスライスとエラーメッセージを返却
@@ -34,16 +34,17 @@ func (m *Maze) initMaze(height, width int) error {
 	return nil
 }
 
-func (m *Maze) digMaze(x, y int) error {
+// 座標(x, y)を起点に迷路に穴を掘る
+func (m *Maze) DigMaze(x, y int) error {
 	return nil
 }
 
 // 穴掘り法で迷路を生成
 // 初期化済みの迷路maze、初期座標(x, y)を指定する
 // 初期座標は奇数である必要がある
-func (m *Maze) generateMaze(height, width, x, y int) error {
+func (m *Maze) GenerateMaze(height, width, x, y int) error {
 	// 初期生成
-	err := m.initMaze(height, width)
+	err := m.InitMaze(height, width)
 	if err != nil {
 		// 初期生成で異常が発生した場合はエラー
 		return err
