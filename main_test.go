@@ -71,7 +71,7 @@ func TestInitField(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got_field, got_err := initField(tt.args.height, tt.args.width); !reflect.DeepEqual(got_field, tt.want_fileld) || (got_err != nil && got_err.Error() != tt.want_err.Error()) {
+			if got_field, got_err := initMaze(tt.args.height, tt.args.width); !reflect.DeepEqual(got_field, tt.want_fileld) || (got_err != nil && got_err.Error() != tt.want_err.Error()) {
 				t.Errorf("field = %v, err = %v, want field = %v, err = %v, %v, %v", got_field, got_err, tt.want_fileld, tt.want_err, reflect.DeepEqual(got_field, tt.want_fileld), errors.Is(got_err, tt.want_err))
 			}
 		})

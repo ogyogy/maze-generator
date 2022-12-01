@@ -4,7 +4,7 @@ import "fmt"
 
 // 迷路を高さheight * 幅widthマスで初期化
 // 0は壁、1は通路を表す
-func initField(height, width int) ([][]int, error) {
+func initMaze(height, width int) ([][]int, error) {
 	// 高さ、幅はそれぞれ5以上の奇数を指定する必要がある
 	if height < 5 || width < 5 {
 		// 空のスライスとエラーメッセージを返却
