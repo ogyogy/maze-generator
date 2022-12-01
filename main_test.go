@@ -8,7 +8,6 @@ import (
 )
 
 func TestInitField(t *testing.T) {
-	fmt.Println(errors.Is(nil, nil))
 	type args struct {
 		height int
 		width  int
