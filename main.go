@@ -1,11 +1,21 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand"
+)
 
 // 0は壁、1は通路を表す
 const (
-	WALL = 0
-	PATH = 1
+	WALL = iota
+	PATH
+)
+
+const (
+	UP = iota
+	DOWN
+	LEFT
+	RIGHT
 )
 
 type Maze struct {
@@ -36,15 +46,66 @@ func (m *Maze) InitMaze(height, width int) error {
 
 // 座標(x, y)を起点に迷路に穴を掘る
 func (m *Maze) DigMaze(x, y int) error {
+	// 上下左右に進めるか
+	var up, down, left, right = true, true, true, true
+	// 掘り進められなくなるまでループ
+	for up || down || left || right {
+		// ランダムに方向を選択
+		direction := rand.Intn(4)
+		// 上方向
+		if direction == UP {
+			if y-2 > 0 && m.Maze[y-2][x] == WALL {
+				// 2マス先が迷路の範囲内かつ壁の場合掘り進める
+				m.Maze[y-1][x] = PATH
+				m.Maze[y-2][x] = PATH
+				m.DigMaze(x, y-2)
+			} else {
+				up = false
+			}
+		}
+		// 下方向
+		if direction == DOWN {
+			if y+2 < m.Height && m.Maze[y+2][x] == WALL {
+				// 2マス先が迷路の範囲内かつ壁の場合掘り進める
+				m.Maze[y+1][x] = PATH
+				m.Maze[y+2][x] = PATH
+				m.DigMaze(x, y+2)
+			} else {
+				down = false
+			}
+		}
+		// 左方向
+		if direction == LEFT {
+			if x-2 > 0 && m.Maze[y][x-2] == WALL {
+				// 2マス先が迷路の範囲内かつ壁の場合掘り進める
+				m.Maze[y][x-2] = PATH
+				m.Maze[y][x-2] = PATH
+				m.DigMaze(x-2, y)
+			} else {
+				left = false
+			}
+		}
+		// 上方向
+		if direction == RIGHT {
+			if x+2 < m.Width && m.Maze[y][x+2] == WALL {
+				// 2マス先が迷路の範囲内かつ壁の場合掘り進める
+				m.Maze[y][x+2] = PATH
+				m.Maze[y][x+2] = PATH
+				m.DigMaze(x+2, y)
+			} else {
+				right = false
+			}
+		}
+	}
 	return nil
 }
 
 // 穴掘り法で迷路を生成
 // 初期化済みの迷路maze、初期座標(x, y)を指定する
 // 初期座標は奇数である必要がある
-func (m *Maze) GenerateMaze(height, width, x, y int) error {
+func (m *Maze) GenerateMaze(x, y int) error {
 	// 初期生成
-	err := m.InitMaze(height, width)
+	err := m.InitMaze(m.Height, m.Width)
 	if err != nil {
 		// 初期生成で異常が発生した場合はエラー
 		return err
@@ -57,9 +118,12 @@ func (m *Maze) GenerateMaze(height, width, x, y int) error {
 	return nil
 }
 
-// func main() {
-// 	err := generateMaze(5, 5, 1, 1)
-// 	if err != nil {
-// 		fmt.Println(err)
-// 	}
-// }
+func main() {
+	m := Maze{5, 5, nil}
+	err := m.GenerateMaze(1, 1)
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println(m.Maze)
+	}
+}
