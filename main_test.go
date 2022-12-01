@@ -77,7 +77,7 @@ func TestInitMaze(t *testing.T) {
 	}
 }
 
-func TestDigMaze(t *testing.T) {
+func TestGenerateMaze(t *testing.T) {
 	type args struct {
 		maze [][]int
 		x    int
@@ -112,7 +112,7 @@ func TestDigMaze(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := digMaze(tt.args.maze, tt.args.x, tt.args.y); got != nil && got.Error() != tt.want.Error() {
+			if got := generateMaze(tt.args.maze, tt.args.x, tt.args.y); got != nil && got.Error() != tt.want.Error() {
 				t.Errorf("got = %v, tt.want = %v", got, tt.want)
 			} else if got == nil && tt.args.maze[tt.args.y][tt.args.x] != 1 {
 				t.Errorf("Invalid value")
