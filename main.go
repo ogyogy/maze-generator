@@ -78,7 +78,7 @@ func (m *Maze) DigMaze(x, y int) error {
 		if direction == LEFT {
 			if x-2 > 0 && m.Maze[y][x-2] == WALL {
 				// 2マス先が迷路の範囲内かつ壁の場合掘り進める
-				m.Maze[y][x-2] = PATH
+				m.Maze[y][x-1] = PATH
 				m.Maze[y][x-2] = PATH
 				m.DigMaze(x-2, y)
 			} else {
@@ -89,7 +89,7 @@ func (m *Maze) DigMaze(x, y int) error {
 		if direction == RIGHT {
 			if x+2 < m.Width && m.Maze[y][x+2] == WALL {
 				// 2マス先が迷路の範囲内かつ壁の場合掘り進める
-				m.Maze[y][x+2] = PATH
+				m.Maze[y][x+1] = PATH
 				m.Maze[y][x+2] = PATH
 				m.DigMaze(x+2, y)
 			} else {
