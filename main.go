@@ -3,12 +3,14 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"time"
 )
 
-// 0は壁、1は通路を表す
 const (
 	WALL = iota
 	PATH
+	PLAYER
+	GOAL
 )
 
 const (
@@ -46,6 +48,7 @@ func (m *Maze) InitMaze(height, width int) error {
 
 // 座標(x, y)を起点に迷路に穴を掘る
 func (m *Maze) DigMaze(x, y int) error {
+	rand.Seed(time.Now().UnixNano())
 	// 上下左右に進めるか
 	var up, down, left, right = true, true, true, true
 	// 掘り進められなくなるまでループ
@@ -125,20 +128,54 @@ func (m *Maze) DisplayMaze() {
 		for _, vv := range v {
 			if vv == WALL {
 				fmt.Print("#")
-			} else {
+			} else if vv == PATH {
 				fmt.Print(".")
+			} else if vv == PLAYER {
+				fmt.Print("@")
+			} else if vv == GOAL {
+				fmt.Print("G")
 			}
 		}
 		fmt.Println()
 	}
 }
 
+// プレイヤーとゴールの初期座標をランダムに設定
+func (m *Maze) setPlayerAndGoal() {
+	rand.Seed(time.Now().UnixNano())
+	// スタートの座標を設定
+	for {
+		sx, sy := rand.Intn(m.Width), rand.Intn(m.Height)
+		if m.Maze[sx][sy] == PATH {
+			m.Maze[sx][sy] = PLAYER
+			break
+		}
+	}
+	// ゴールの座標を設定
+	for {
+		gx, gy := rand.Intn(m.Width), rand.Intn(m.Height)
+		if m.Maze[gx][gy] == PATH {
+			m.Maze[gx][gy] = GOAL
+			break
+		}
+	}
+}
+
 func main() {
-	m := Maze{11, 11, nil}
-	err := m.GenerateMaze(1, 1)
+	m := Maze{7, 7, nil}
+	rand.Seed(time.Now().UnixNano())
+	sx, sy := rand.Intn(m.Width-1), rand.Intn(m.Height-1)
+	if sx%2 == 0 {
+		sx++
+	}
+	if sy%2 == 0 {
+		sy++
+	}
+	err := m.GenerateMaze(sx, sy)
 	if err != nil {
 		fmt.Println(err)
 	} else {
+		m.setPlayerAndGoal()
 		m.DisplayMaze()
 	}
 }
