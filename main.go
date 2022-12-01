@@ -141,7 +141,7 @@ func (m *Maze) DisplayMaze() {
 }
 
 // プレイヤーとゴールの初期座標をランダムに設定
-func (m *Maze) setPlayerAndGoal() {
+func (m *Maze) SetPlayerAndGoal() {
 	rand.Seed(time.Now().UnixNano())
 	// スタートの座標を設定
 	for {
@@ -175,7 +175,7 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		m.setPlayerAndGoal()
+		m.SetPlayerAndGoal()
 		m.DisplayMaze()
 	}
 }
