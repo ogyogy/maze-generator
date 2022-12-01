@@ -88,14 +88,34 @@ func TestInitCoordinate(t *testing.T) {
 		args args
 		want error
 	}{
-		{name: "normal", args: args{maze: [][]int{{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}}, x: 1, y: 1}, want: nil},
+		{name: "positive",
+			args: args{
+				maze: [][]int{{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}},
+				x:    1,
+				y:    1},
+			want: nil},
+		{name: "negative",
+			args: args{maze: [][]int{{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}},
+				x: 0,
+				y: 0},
+			want: fmt.Errorf("error: x and y must be odd numbers greater than or equal to 1")},
+		{name: "negative",
+			args: args{maze: [][]int{{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}},
+				x: 0,
+				y: 1},
+			want: fmt.Errorf("error: x and y must be odd numbers greater than or equal to 1")},
+		{name: "negative",
+			args: args{maze: [][]int{{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}},
+				x: 1,
+				y: 0},
+			want: fmt.Errorf("error: x and y must be odd numbers greater than or equal to 1")},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := initCoordinate(tt.args.maze, tt.args.x, tt.args.y); got != tt.want {
+			if got := initCoordinate(tt.args.maze, tt.args.x, tt.args.y); got != nil && got.Error() != tt.want.Error() {
 				t.Errorf("got = %v, tt.want = %v", got, tt.want)
-			} else if got != nil && tt.args.maze[tt.args.y][tt.args.x] != 1 {
-				t.Errorf("error")
+			} else if got == nil && tt.args.maze[tt.args.y][tt.args.x] != 1 {
+				t.Errorf("Invalid value")
 			}
 		})
 	}
