@@ -115,6 +115,7 @@ func (m *Maze) GenerateMaze(x, y int) error {
 	} else {
 		m.Maze[y][x] = PATH
 	}
+	m.DigMaze(x, y)
 	return nil
 }
 
