@@ -34,6 +34,10 @@ func (m *Maze) initMaze(height, width int) error {
 	return nil
 }
 
+func (m *Maze) digMaze(x, y int) error {
+	return nil
+}
+
 // 穴掘り法で迷路を生成
 // 初期化済みの迷路maze、初期座標(x, y)を指定する
 // 初期座標は奇数である必要がある

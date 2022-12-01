@@ -161,3 +161,30 @@ func TestGenerateMaze(t *testing.T) {
 		})
 	}
 }
+
+func TestDigMaze(t *testing.T) {
+	type args struct {
+		x int
+		y int
+	}
+	tests := []struct {
+		name string
+		args args
+		want error
+	}{
+		// 正常系
+		{name: "positive",
+			args: args{
+				x: 1,
+				y: 1},
+			want: nil},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			m := Maze{5, 5, nil}
+			if got := m.digMaze(tt.args.x, tt.args.y); got != nil {
+				t.Errorf("got != nil")
+			}
+		})
+	}
+}
