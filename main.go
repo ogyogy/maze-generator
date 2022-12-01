@@ -119,12 +119,26 @@ func (m *Maze) GenerateMaze(x, y int) error {
 	return nil
 }
 
+// 迷路を標準出力
+func (m *Maze) DisplayMaze() {
+	for _, v := range m.Maze {
+		for _, vv := range v {
+			if vv == WALL {
+				fmt.Print("#")
+			} else {
+				fmt.Print(".")
+			}
+		}
+		fmt.Println()
+	}
+}
+
 func main() {
-	m := Maze{5, 5, nil}
+	m := Maze{11, 11, nil}
 	err := m.GenerateMaze(1, 1)
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		fmt.Println(m.Maze)
+		m.DisplayMaze()
 	}
 }
