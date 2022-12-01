@@ -24,7 +24,7 @@ func initMaze(height, width int) ([][]int, error) {
 
 // 穴掘り法
 // 初期化済みの迷路maze、初期座標(x, y)を指定する
-func initCoordinate(maze [][]int, x, y int) error {
+func digMaze(maze [][]int, x, y int) error {
 	if x < 1 || y < 1 || x%2 == 0 || y%2 == 0 {
 		return fmt.Errorf("error: x and y must be odd numbers greater than or equal to 1")
 	} else {
