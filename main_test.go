@@ -76,3 +76,27 @@ func TestInitField(t *testing.T) {
 		})
 	}
 }
+
+func TestInitCoordinate(t *testing.T) {
+	type args struct {
+		maze [][]int
+		x    int
+		y    int
+	}
+	tests := []struct {
+		name string
+		args args
+		want error
+	}{
+		{name: "normal", args: args{maze: [][]int{{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}}, x: 1, y: 1}, want: nil},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := initCoordinate(tt.args.maze, tt.args.x, tt.args.y); got != tt.want {
+				t.Errorf("got = %v, tt.want = %v", got, tt.want)
+			} else if got != nil && tt.args.maze[tt.args.y][tt.args.x] != 1 {
+				t.Errorf("error")
+			}
+		})
+	}
+}
