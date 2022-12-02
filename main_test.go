@@ -13,67 +13,67 @@ func TestInitMaze(t *testing.T) {
 		width  int
 	}
 	tests := []struct {
-		name      string
-		args      args
-		want_maze [][]int
-		want_err  error
+		name     string
+		args     args
+		wantMaze [][]int
+		wantErr  error
 	}{
 		{
 			// 正常系
-			name:      "positive",
-			args:      args{height: 5, width: 5},
-			want_maze: [][]int{{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}},
-			want_err:  nil,
+			name:     "positive",
+			args:     args{height: 5, width: 5},
+			wantMaze: [][]int{{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}},
+			wantErr:  nil,
 		},
 		{
 			// 異常系 (高さが5未満)
-			name:      "negative",
-			args:      args{height: 4, width: 5},
-			want_maze: nil,
-			want_err:  fmt.Errorf("error: height and width must be at least 5"),
+			name:     "negative",
+			args:     args{height: 4, width: 5},
+			wantMaze: nil,
+			wantErr:  fmt.Errorf("error: height and width must be at least 5"),
 		},
 		{
 			// 異常系 (幅が5未満)
-			name:      "negative",
-			args:      args{height: 5, width: 4},
-			want_maze: nil,
-			want_err:  fmt.Errorf("error: height and width must be at least 5"),
+			name:     "negative",
+			args:     args{height: 5, width: 4},
+			wantMaze: nil,
+			wantErr:  fmt.Errorf("error: height and width must be at least 5"),
 		},
 		{
 			// 異常系 (高さ、幅ともに5未満)
-			name:      "negative",
-			args:      args{height: 4, width: 4},
-			want_maze: nil,
-			want_err:  fmt.Errorf("error: height and width must be at least 5"),
+			name:     "negative",
+			args:     args{height: 4, width: 4},
+			wantMaze: nil,
+			wantErr:  fmt.Errorf("error: height and width must be at least 5"),
 		},
 		{
 			// 異常系 (高さが偶数)
-			name:      "negative",
-			args:      args{height: 6, width: 5},
-			want_maze: nil,
-			want_err:  fmt.Errorf("error: height and width must be odd numbers"),
+			name:     "negative",
+			args:     args{height: 6, width: 5},
+			wantMaze: nil,
+			wantErr:  fmt.Errorf("error: height and width must be odd numbers"),
 		},
 		{
 			// 異常系 (幅が偶数)
-			name:      "negative",
-			args:      args{height: 5, width: 6},
-			want_maze: nil,
-			want_err:  fmt.Errorf("error: height and width must be odd numbers"),
+			name:     "negative",
+			args:     args{height: 5, width: 6},
+			wantMaze: nil,
+			wantErr:  fmt.Errorf("error: height and width must be odd numbers"),
 		},
 		{
 			// 異常系 (高さ、幅ともに偶数)
-			name:      "negative",
-			args:      args{height: 6, width: 6},
-			want_maze: nil,
-			want_err:  fmt.Errorf("error: height and width must be odd numbers"),
+			name:     "negative",
+			args:     args{height: 6, width: 6},
+			wantMaze: nil,
+			wantErr:  fmt.Errorf("error: height and width must be odd numbers"),
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			m := Maze{tt.args.height, tt.args.width, nil}
-			if got := m.InitMaze(); !reflect.DeepEqual(m.Maze, tt.want_maze) || (got != nil && got.Error() != tt.want_err.Error()) {
+			if got := m.InitMaze(); !reflect.DeepEqual(m.Maze, tt.wantMaze) || (got != nil && got.Error() != tt.wantErr.Error()) {
 				// 初期生成した迷路の値またはエラーメッセージが想定と異なる場合テスト失敗
-				t.Errorf("field = %v, err = %v, want field = %v, err = %v, %v, %v", m.Maze, got, tt.want_maze, tt.want_err, reflect.DeepEqual(m.Maze, tt.want_maze), errors.Is(got, tt.want_err))
+				t.Errorf("field = %v, err = %v, want field = %v, err = %v, %v, %v", m.Maze, got, tt.wantMaze, tt.wantErr, reflect.DeepEqual(m.Maze, tt.wantMaze), errors.Is(got, tt.wantErr))
 			}
 		})
 	}
@@ -197,27 +197,27 @@ func TestMovePlayer(t *testing.T) {
 		direction int
 	}
 	tests := []struct {
-		name     string
-		args     args
-		want_err error
-		want_x   int
-		want_y   int
+		name    string
+		args    args
+		wantErr error
+		wantX   int
+		wantY   int
 	}{
 		// 正常系
-		{name: "positive", args: args{x: 2, y: 2, direction: UP}, want_err: nil, want_x: 2, want_y: 1},
-		{name: "positive", args: args{x: 2, y: 2, direction: DOWN}, want_err: nil, want_x: 2, want_y: 3},
-		{name: "positive", args: args{x: 2, y: 2, direction: LEFT}, want_err: nil, want_x: 1, want_y: 2},
-		{name: "positive", args: args{x: 2, y: 2, direction: RIGHT}, want_err: nil, want_x: 3, want_y: 2},
+		{name: "positive", args: args{x: 2, y: 2, direction: UP}, wantErr: nil, wantX: 2, wantY: 1},
+		{name: "positive", args: args{x: 2, y: 2, direction: DOWN}, wantErr: nil, wantX: 2, wantY: 3},
+		{name: "positive", args: args{x: 2, y: 2, direction: LEFT}, wantErr: nil, wantX: 1, wantY: 2},
+		{name: "positive", args: args{x: 2, y: 2, direction: RIGHT}, wantErr: nil, wantX: 3, wantY: 2},
 		// 異常系 (移動先が壁)
-		{name: "negative", args: args{x: 1, y: 1, direction: UP}, want_err: fmt.Errorf("you cannot walk through walls"), want_x: 1, want_y: 1},
-		{name: "negative", args: args{x: 3, y: 3, direction: DOWN}, want_err: fmt.Errorf("you cannot walk through walls"), want_x: 3, want_y: 3},
-		{name: "negative", args: args{x: 1, y: 1, direction: LEFT}, want_err: fmt.Errorf("you cannot walk through walls"), want_x: 1, want_y: 1},
-		{name: "negative", args: args{x: 3, y: 3, direction: RIGHT}, want_err: fmt.Errorf("you cannot walk through walls"), want_x: 3, want_y: 3},
+		{name: "negative", args: args{x: 1, y: 1, direction: UP}, wantErr: fmt.Errorf("you cannot walk through walls"), wantX: 1, wantY: 1},
+		{name: "negative", args: args{x: 3, y: 3, direction: DOWN}, wantErr: fmt.Errorf("you cannot walk through walls"), wantX: 3, wantY: 3},
+		{name: "negative", args: args{x: 1, y: 1, direction: LEFT}, wantErr: fmt.Errorf("you cannot walk through walls"), wantX: 1, wantY: 1},
+		{name: "negative", args: args{x: 3, y: 3, direction: RIGHT}, wantErr: fmt.Errorf("you cannot walk through walls"), wantX: 3, wantY: 3},
 		// 異常系 (移動先が範囲外)
-		{name: "negative", args: args{x: 0, y: 0, direction: UP}, want_err: fmt.Errorf("index out of range"), want_x: 0, want_y: 0},
-		{name: "negative", args: args{x: 4, y: 4, direction: DOWN}, want_err: fmt.Errorf("index out of range"), want_x: 4, want_y: 4},
-		{name: "negative", args: args{x: 0, y: 0, direction: LEFT}, want_err: fmt.Errorf("index out of range"), want_x: 0, want_y: 0},
-		{name: "negative", args: args{x: 4, y: 4, direction: RIGHT}, want_err: fmt.Errorf("index out of range"), want_x: 4, want_y: 4},
+		{name: "negative", args: args{x: 0, y: 0, direction: UP}, wantErr: fmt.Errorf("index out of range"), wantX: 0, wantY: 0},
+		{name: "negative", args: args{x: 4, y: 4, direction: DOWN}, wantErr: fmt.Errorf("index out of range"), wantX: 4, wantY: 4},
+		{name: "negative", args: args{x: 0, y: 0, direction: LEFT}, wantErr: fmt.Errorf("index out of range"), wantX: 0, wantY: 0},
+		{name: "negative", args: args{x: 4, y: 4, direction: RIGHT}, wantErr: fmt.Errorf("index out of range"), wantX: 4, wantY: 4},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -234,11 +234,11 @@ func TestMovePlayer(t *testing.T) {
 				}
 			}
 			got := p.MovePlayer(m, tt.args.direction)
-			if got != nil && got.Error() != tt.want_err.Error() {
+			if got != nil && got.Error() != tt.wantErr.Error() {
 				t.Errorf("got != nil && got.Error() != tt.want_err.Error()")
 			}
-			if p.X != tt.want_x || p.Y != tt.want_y {
-				t.Errorf("p.X = %v, tt.want_x = %v, p.Y = %v, tt.want_y = %v", p.X, tt.want_x, p.Y, tt.want_y)
+			if p.X != tt.wantX || p.Y != tt.wantY {
+				t.Errorf("p.X = %v, tt.want_x = %v, p.Y = %v, tt.want_y = %v", p.X, tt.wantX, p.Y, tt.wantY)
 			}
 		})
 	}
