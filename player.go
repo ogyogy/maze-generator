@@ -43,7 +43,7 @@ func (p *Player) SetRandCoord(m Maze) {
 	rand.Seed(time.Now().UnixNano())
 	for {
 		sx, sy := rand.Intn(m.Width), rand.Intn(m.Height)
-		if m.Maze[sx][sy] == PATH {
+		if m.Maze[sy][sx] == PATH {
 			p.X, p.Y = sx, sy
 			break
 		}

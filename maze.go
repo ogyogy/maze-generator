@@ -110,12 +110,12 @@ func (m *Maze) GenerateMaze(x, y int) error {
 }
 
 // ゴールの座標を設定
-func (m *Maze) setGoal() {
+func (m *Maze) SetGoal() {
 	rand.Seed(time.Now().UnixNano())
 	for {
 		gx, gy := rand.Intn(m.Width), rand.Intn(m.Height)
-		if m.Maze[gx][gy] == PATH {
-			m.Maze[gx][gy] = GOAL
+		if m.Maze[gy][gx] == PATH {
+			m.Maze[gy][gx] = GOAL
 			break
 		}
 	}

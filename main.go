@@ -61,7 +61,7 @@ func (g *Game) Run() {
 	// プレイヤーの生成
 	g.Player.SetRandCoord(g.Maze)
 	// ゴールの生成
-	g.Maze.setGoal()
+	g.Maze.SetGoal()
 	if err != nil {
 		fmt.Println(err)
 	} else {
