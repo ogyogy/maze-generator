@@ -9,7 +9,6 @@ import (
 const (
 	WALL = iota
 	PATH
-	PLAYER
 	GOAL
 )
 
@@ -29,6 +28,11 @@ type Maze struct {
 type Player struct {
 	X int
 	Y int
+}
+
+type Game struct {
+	Maze   Maze
+	Player Player
 }
 
 // 迷路を初期化
@@ -129,41 +133,23 @@ func (m *Maze) GenerateMaze(x, y int) error {
 }
 
 // 迷路を標準出力
-func (m *Maze) DisplayMaze() {
-	for _, v := range m.Maze {
-		for _, vv := range v {
+func (g *Game) DisplayMaze() {
+	fmt.Println(g.Player)
+	for i, v := range g.Maze.Maze {
+		for j, vv := range v {
 			if vv == WALL {
 				fmt.Print("#")
 			} else if vv == PATH {
-				fmt.Print(".")
-			} else if vv == PLAYER {
-				fmt.Print("@")
+				if g.Player.X == j && g.Player.Y == i {
+					fmt.Print("@")
+				} else {
+					fmt.Print(".")
+				}
 			} else if vv == GOAL {
 				fmt.Print("G")
 			}
 		}
 		fmt.Println()
-	}
-}
-
-// プレイヤーとゴールの初期座標をランダムに設定
-func (m *Maze) SetPlayerAndGoal() {
-	rand.Seed(time.Now().UnixNano())
-	// スタートの座標を設定
-	for {
-		sx, sy := rand.Intn(m.Width), rand.Intn(m.Height)
-		if m.Maze[sx][sy] == PATH {
-			m.Maze[sx][sy] = PLAYER
-			break
-		}
-	}
-	// ゴールの座標を設定
-	for {
-		gx, gy := rand.Intn(m.Width), rand.Intn(m.Height)
-		if m.Maze[gx][gy] == PATH {
-			m.Maze[gx][gy] = GOAL
-			break
-		}
 	}
 }
 
@@ -194,21 +180,61 @@ func (p *Player) MovePlayer(m Maze, direction int) error {
 	return nil
 }
 
-func main() {
-	m := Maze{7, 7, nil}
+// プレイヤーの座標を初期化
+func (p *Player) initPlayer(m Maze) {
 	rand.Seed(time.Now().UnixNano())
-	sx, sy := rand.Intn(m.Width-1), rand.Intn(m.Height-1)
+	for {
+		sx, sy := rand.Intn(m.Width), rand.Intn(m.Height)
+		if m.Maze[sx][sy] == PATH {
+			p.X, p.Y = sx, sy
+			break
+		}
+	}
+}
+
+// ゴールの座標を設定
+func (m *Maze) setGoal() {
+	rand.Seed(time.Now().UnixNano())
+	for {
+		gx, gy := rand.Intn(m.Width), rand.Intn(m.Height)
+		if m.Maze[gx][gy] == PATH {
+			m.Maze[gx][gy] = GOAL
+			break
+		}
+	}
+}
+
+// ゲームの実行
+func (g *Game) Run() {
+	rand.Seed(time.Now().UnixNano())
+	// 迷路の生成
+	g.Maze.InitMaze()
+	// 穴掘り法の開始座標をランダム生成
+	sx, sy := rand.Intn(g.Maze.Width-1), rand.Intn(g.Maze.Height-1)
 	if sx%2 == 0 {
 		sx++
 	}
 	if sy%2 == 0 {
 		sy++
 	}
-	err := m.GenerateMaze(sx, sy)
+	err := g.Maze.GenerateMaze(sx, sy)
+	// プレイヤーの生成
+	g.Player.initPlayer(g.Maze)
+	// ゴールの生成
+	g.Maze.setGoal()
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		m.SetPlayerAndGoal()
-		m.DisplayMaze()
+		g.DisplayMaze()
 	}
+}
+
+func main() {
+	// 迷路の初期化
+	m := Maze{7, 7, nil}
+	// プレイヤーの初期化
+	p := Player{0, 0}
+	// ゲームの実行
+	g := Game{m, p}
+	g.Run()
 }
