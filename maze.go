@@ -10,6 +10,8 @@ type Maze struct {
 	Height int
 	Width  int
 	Maze   [][]int
+	GoalX  int
+	GoalY  int
 }
 
 // 迷路を初期化
@@ -110,12 +112,12 @@ func (m *Maze) GenerateMaze(x, y int) error {
 }
 
 // ゴールの座標をランダムに設定
-func (m *Maze) SetRandGoal() (int, int) {
+func (m *Maze) SetRandGoal() {
 	rand.Seed(time.Now().UnixNano())
 	var gx, gy int
 	for m.Maze[gy][gx] != PATH {
 		gx, gy = rand.Intn(m.Width), rand.Intn(m.Height)
 	}
 	m.Maze[gy][gx] = GOAL
-	return gx, gy
+	m.GoalX, m.GoalY = gx, gy
 }

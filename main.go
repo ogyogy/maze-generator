@@ -68,7 +68,7 @@ func (g *Game) Run() error {
 	// プレイヤーの生成
 	g.Player.SetRandCoord(g.Maze)
 	// ゴールの生成
-	gx, gy := g.Maze.SetRandGoal()
+	g.Maze.SetRandGoal()
 	// 迷路を表示
 	g.DisplayMaze()
 	// 移動
@@ -100,7 +100,7 @@ func (g *Game) Run() error {
 			fmt.Println(err)
 		}
 		// ゴール判定
-		if gx == g.Player.X && gy == g.Player.Y {
+		if g.Maze.GoalX == g.Player.X && g.Maze.GoalY == g.Player.Y {
 			fmt.Println("finish")
 			return nil
 		}
@@ -111,7 +111,7 @@ func (g *Game) Run() error {
 
 func main() {
 	// 迷路の初期化
-	m := Maze{7, 7, nil}
+	m := Maze{7, 7, nil, 0, 0}
 	// プレイヤーの初期化
 	p := Player{0, 0}
 	// ゲームの実行
