@@ -26,7 +26,6 @@ type Game struct {
 
 // 迷路を標準出力
 func (g *Game) DisplayMaze() {
-	fmt.Println(g.Player)
 	for i, v := range g.Maze.Maze {
 		for j, vv := range v {
 			if vv == WALL {
