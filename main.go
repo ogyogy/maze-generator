@@ -26,6 +26,11 @@ type Maze struct {
 	Maze   [][]int
 }
 
+type Player struct {
+	X int
+	Y int
+}
+
 // 迷路を初期化
 // 高さ、幅はそれぞれ5以上の奇数を指定する必要がある
 func (m *Maze) InitMaze() error {
@@ -160,6 +165,32 @@ func (m *Maze) SetPlayerAndGoal() {
 			break
 		}
 	}
+}
+
+// プレイヤーを移動する
+func (p *Player) MovePlayer(m Maze, direction int) error {
+	newX, newY := p.X, p.Y
+	// 引数directionに基づき移動先の座標を計算
+	if direction == UP {
+		newY--
+	} else if direction == DOWN {
+		newY++
+	} else if direction == LEFT {
+		newX--
+	} else if direction == RIGHT {
+		newX++
+	}
+	if newX == WALL || newY == WALL ||
+		newX < 0 || newY < 0 ||
+		newX > m.Width-1 || newY > m.Height {
+		// 移動先の座標が壁または範囲外の場合エラー
+		return fmt.Errorf("index out of range")
+	} else {
+		// エラーに該当しない場合はプレイヤーの座標を更新
+		p.X = newX
+		p.Y = newY
+	}
+	return nil
 }
 
 func main() {
