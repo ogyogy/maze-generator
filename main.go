@@ -45,10 +45,13 @@ func (g *Game) DisplayMaze() {
 }
 
 // ゲームの実行
-func (g *Game) Run() {
+func (g *Game) Run() error {
 	rand.Seed(time.Now().UnixNano())
-	// 迷路の生成
-	g.Maze.Init()
+	// 迷路の初期化
+	err := g.Maze.Init()
+	if err != nil {
+		return err
+	}
 	// 穴掘り法の開始座標をランダム生成
 	sx, sy := rand.Intn(g.Maze.Width-1), rand.Intn(g.Maze.Height-1)
 	if sx%2 == 0 {
@@ -57,16 +60,48 @@ func (g *Game) Run() {
 	if sy%2 == 0 {
 		sy++
 	}
-	err := g.Maze.GenerateMaze(sx, sy)
+	// 穴掘り法による迷路の生成
+	err = g.Maze.GenerateMaze(sx, sy)
+	if err != nil {
+		return err
+	}
 	// プレイヤーの生成
 	g.Player.SetRandCoord(g.Maze)
 	// ゴールの生成
 	g.Maze.SetGoal()
-	if err != nil {
-		fmt.Println(err)
-	} else {
+	// 迷路を表示
+	g.DisplayMaze()
+	// 移動
+	var s string
+	for {
+		fmt.Print("move (hjkl), quit (q): ")
+		_, err := fmt.Scan(&s)
+		if err != nil {
+			return err
+		}
+		// プレイヤーの移動量
+		var d int
+		if s == "h" {
+			d = LEFT
+		} else if s == "j" {
+			d = DOWN
+		} else if s == "k" {
+			d = UP
+		} else if s == "l" {
+			d = RIGHT
+		} else if s == "q" {
+			break
+		} else {
+			fmt.Println("try again")
+			continue
+		}
+		err = g.Player.Move(g.Maze, d)
+		if err != nil {
+			return err
+		}
 		g.DisplayMaze()
 	}
+	return nil
 }
 
 func main() {
@@ -76,5 +111,8 @@ func main() {
 	p := Player{0, 0}
 	// ゲームの実行
 	g := Game{m, p}
-	g.Run()
+	err := g.Run()
+	if err != nil {
+		fmt.Println(err)
+	}
 }
