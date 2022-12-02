@@ -49,7 +49,7 @@ func (g *Game) DisplayMaze() {
 func (g *Game) Run() {
 	rand.Seed(time.Now().UnixNano())
 	// 迷路の生成
-	g.Maze.InitMaze()
+	g.Maze.Init()
 	// 穴掘り法の開始座標をランダム生成
 	sx, sy := rand.Intn(g.Maze.Width-1), rand.Intn(g.Maze.Height-1)
 	if sx%2 == 0 {

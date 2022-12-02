@@ -14,7 +14,7 @@ type Maze struct {
 
 // 迷路を初期化
 // 高さ、幅はそれぞれ5以上の奇数を指定する必要がある
-func (m *Maze) InitMaze() error {
+func (m *Maze) Init() error {
 	height, width := m.Height, m.Width
 	if height < 5 || width < 5 {
 		// 高さまたは幅が5未満の場合エラー
@@ -34,7 +34,7 @@ func (m *Maze) InitMaze() error {
 }
 
 // 座標(x, y)を起点に迷路に穴を掘る
-func (m *Maze) DigMaze(x, y int) error {
+func (m *Maze) Dig(x, y int) error {
 	rand.Seed(time.Now().UnixNano())
 	// 上下左右に進めるか
 	var up, down, left, right = true, true, true, true
@@ -48,7 +48,7 @@ func (m *Maze) DigMaze(x, y int) error {
 				// 2マス先が迷路の範囲内かつ壁の場合掘り進める
 				m.Maze[y-1][x] = PATH
 				m.Maze[y-2][x] = PATH
-				m.DigMaze(x, y-2)
+				m.Dig(x, y-2)
 			} else {
 				up = false
 			}
@@ -59,7 +59,7 @@ func (m *Maze) DigMaze(x, y int) error {
 				// 2マス先が迷路の範囲内かつ壁の場合掘り進める
 				m.Maze[y+1][x] = PATH
 				m.Maze[y+2][x] = PATH
-				m.DigMaze(x, y+2)
+				m.Dig(x, y+2)
 			} else {
 				down = false
 			}
@@ -70,7 +70,7 @@ func (m *Maze) DigMaze(x, y int) error {
 				// 2マス先が迷路の範囲内かつ壁の場合掘り進める
 				m.Maze[y][x-1] = PATH
 				m.Maze[y][x-2] = PATH
-				m.DigMaze(x-2, y)
+				m.Dig(x-2, y)
 			} else {
 				left = false
 			}
@@ -81,7 +81,7 @@ func (m *Maze) DigMaze(x, y int) error {
 				// 2マス先が迷路の範囲内かつ壁の場合掘り進める
 				m.Maze[y][x+1] = PATH
 				m.Maze[y][x+2] = PATH
-				m.DigMaze(x+2, y)
+				m.Dig(x+2, y)
 			} else {
 				right = false
 			}
@@ -95,7 +95,7 @@ func (m *Maze) DigMaze(x, y int) error {
 // 初期座標は奇数である必要がある
 func (m *Maze) GenerateMaze(x, y int) error {
 	// 初期生成
-	err := m.InitMaze()
+	err := m.Init()
 	if err != nil {
 		// 初期生成で異常が発生した場合はエラー
 		return err
@@ -105,7 +105,7 @@ func (m *Maze) GenerateMaze(x, y int) error {
 	} else {
 		m.Maze[y][x] = PATH
 	}
-	m.DigMaze(x, y)
+	m.Dig(x, y)
 	return nil
 }
 

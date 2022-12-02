@@ -12,7 +12,7 @@ type Player struct {
 }
 
 // プレイヤーを移動する
-func (p *Player) MovePlayer(m Maze, direction int) error {
+func (p *Player) Move(m Maze, direction int) error {
 	newX, newY := p.X, p.Y
 	// 引数directionに基づき移動先の座標を計算
 	if direction == UP {
