@@ -26,7 +26,7 @@ type Maze struct {
 	Maze   [][]int
 }
 
-// 迷路を高さheight * 幅widthマスで初期化
+// 迷路を初期化
 // 高さ、幅はそれぞれ5以上の奇数を指定する必要がある
 func (m *Maze) InitMaze() error {
 	height, width := m.Height, m.Width
