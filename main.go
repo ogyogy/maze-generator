@@ -97,7 +97,7 @@ func (g *Game) Run() error {
 		}
 		err = g.Player.Move(g.Maze, d)
 		if err != nil {
-			return err
+			fmt.Println(err)
 		}
 		g.DisplayMaze()
 	}
