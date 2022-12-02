@@ -68,7 +68,7 @@ func (g *Game) Run() error {
 	// プレイヤーの生成
 	g.Player.SetRandCoord(g.Maze)
 	// ゴールの生成
-	g.Maze.SetGoal()
+	gx, gy := g.Maze.SetRandGoal()
 	// 迷路を表示
 	g.DisplayMaze()
 	// 移動
@@ -98,6 +98,11 @@ func (g *Game) Run() error {
 		err = g.Player.Move(g.Maze, d)
 		if err != nil {
 			fmt.Println(err)
+		}
+		// ゴール判定
+		if gx == g.Player.X && gy == g.Player.Y {
+			fmt.Println("finish")
+			return nil
 		}
 		g.DisplayMaze()
 	}

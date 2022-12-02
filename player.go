@@ -38,14 +38,12 @@ func (p *Player) Move(m Maze, direction int) error {
 	return nil
 }
 
-// プレイヤーの座標を初期化
+// プレイヤーの座標をランダムに設定
 func (p *Player) SetRandCoord(m Maze) {
 	rand.Seed(time.Now().UnixNano())
-	for {
-		sx, sy := rand.Intn(m.Width), rand.Intn(m.Height)
-		if m.Maze[sy][sx] == PATH {
-			p.X, p.Y = sx, sy
-			break
-		}
+	var sx, sy int
+	for m.Maze[sy][sx] != PATH {
+		sx, sy = rand.Intn(m.Width), rand.Intn(m.Height)
 	}
+	p.X, p.Y = sx, sy
 }

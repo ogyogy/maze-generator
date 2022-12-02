@@ -109,14 +109,13 @@ func (m *Maze) GenerateMaze(x, y int) error {
 	return nil
 }
 
-// ゴールの座標を設定
-func (m *Maze) SetGoal() {
+// ゴールの座標をランダムに設定
+func (m *Maze) SetRandGoal() (int, int) {
 	rand.Seed(time.Now().UnixNano())
-	for {
-		gx, gy := rand.Intn(m.Width), rand.Intn(m.Height)
-		if m.Maze[gy][gx] == PATH {
-			m.Maze[gy][gx] = GOAL
-			break
-		}
+	var gx, gy int
+	for m.Maze[gy][gx] != PATH {
+		gx, gy = rand.Intn(m.Width), rand.Intn(m.Height)
 	}
+	m.Maze[gy][gx] = GOAL
+	return gx, gy
 }
