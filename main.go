@@ -181,7 +181,7 @@ func (p *Player) MovePlayer(m Maze, direction int) error {
 }
 
 // プレイヤーの座標を初期化
-func (p *Player) initPlayer(m Maze) {
+func (p *Player) SetRandCoord(m Maze) {
 	rand.Seed(time.Now().UnixNano())
 	for {
 		sx, sy := rand.Intn(m.Width), rand.Intn(m.Height)
@@ -219,7 +219,7 @@ func (g *Game) Run() {
 	}
 	err := g.Maze.GenerateMaze(sx, sy)
 	// プレイヤーの生成
-	g.Player.initPlayer(g.Maze)
+	g.Player.SetRandCoord(g.Maze)
 	// ゴールの生成
 	g.Maze.setGoal()
 	if err != nil {
