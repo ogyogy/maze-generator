@@ -1,1 +1,1 @@
-# maze-generator-go
+# maze-generator
