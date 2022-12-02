@@ -180,11 +180,12 @@ func (p *Player) MovePlayer(m Maze, direction int) error {
 	} else if direction == RIGHT {
 		newX++
 	}
-	if newX == WALL || newY == WALL ||
-		newX < 0 || newY < 0 ||
-		newX > m.Width-1 || newY > m.Height {
-		// 移動先の座標が壁または範囲外の場合エラー
+	if newX < 0 || newY < 0 || newX > m.Width-1 || newY > m.Height-1 {
+		// 移動先の座標が範囲外の場合エラー
 		return fmt.Errorf("index out of range")
+	} else if m.Maze[newY][newX] == WALL {
+		// 移動先の座標が壁の場合エラー
+		return fmt.Errorf("you cannot walk through walls")
 	} else {
 		// エラーに該当しない場合はプレイヤーの座標を更新
 		p.X = newX

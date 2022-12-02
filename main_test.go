@@ -190,7 +190,7 @@ func TestDigMaze(t *testing.T) {
 	}
 }
 
-func TestPlayerMove(t *testing.T) {
+func TestMovePlayer(t *testing.T) {
 	type args struct {
 		x         int
 		y         int
@@ -208,6 +208,16 @@ func TestPlayerMove(t *testing.T) {
 		{name: "positive", args: args{x: 2, y: 2, direction: DOWN}, want_err: nil, want_x: 2, want_y: 3},
 		{name: "positive", args: args{x: 2, y: 2, direction: LEFT}, want_err: nil, want_x: 1, want_y: 2},
 		{name: "positive", args: args{x: 2, y: 2, direction: RIGHT}, want_err: nil, want_x: 3, want_y: 2},
+		// 異常系 (移動先が壁)
+		{name: "negative", args: args{x: 1, y: 1, direction: UP}, want_err: fmt.Errorf("you cannot walk through walls"), want_x: 1, want_y: 1},
+		{name: "negative", args: args{x: 3, y: 3, direction: DOWN}, want_err: fmt.Errorf("you cannot walk through walls"), want_x: 3, want_y: 3},
+		{name: "negative", args: args{x: 1, y: 1, direction: LEFT}, want_err: fmt.Errorf("you cannot walk through walls"), want_x: 1, want_y: 1},
+		{name: "negative", args: args{x: 3, y: 3, direction: RIGHT}, want_err: fmt.Errorf("you cannot walk through walls"), want_x: 3, want_y: 3},
+		// 異常系 (移動先が範囲外)
+		{name: "negative", args: args{x: 0, y: 0, direction: UP}, want_err: fmt.Errorf("index out of range"), want_x: 0, want_y: 0},
+		{name: "negative", args: args{x: 4, y: 4, direction: DOWN}, want_err: fmt.Errorf("index out of range"), want_x: 4, want_y: 4},
+		{name: "negative", args: args{x: 0, y: 0, direction: LEFT}, want_err: fmt.Errorf("index out of range"), want_x: 0, want_y: 0},
+		{name: "negative", args: args{x: 4, y: 4, direction: RIGHT}, want_err: fmt.Errorf("index out of range"), want_x: 4, want_y: 4},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -218,7 +228,7 @@ func TestPlayerMove(t *testing.T) {
 			// 外周以外を通路にする
 			for i := 0; i < height; i++ {
 				for j := 0; j < width; j++ {
-					if i > 0 || j > 0 || i < width-1 || j < height-1 {
+					if i > 0 && j > 0 && i < width-1 && j < height-1 {
 						m.Maze[i][j] = PATH
 					}
 				}
@@ -226,7 +236,8 @@ func TestPlayerMove(t *testing.T) {
 			got := p.MovePlayer(m, tt.args.direction)
 			if got != nil && got.Error() != tt.want_err.Error() {
 				t.Errorf("got != nil && got.Error() != tt.want_err.Error()")
-			} else if p.X != tt.want_x || p.Y != tt.want_y {
+			}
+			if p.X != tt.want_x || p.Y != tt.want_y {
 				t.Errorf("p.X = %v, tt.want_x = %v, p.Y = %v, tt.want_y = %v", p.X, tt.want_x, p.Y, tt.want_y)
 			}
 		})
