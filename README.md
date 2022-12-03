@@ -8,6 +8,8 @@ go run .
 
 ## Game screen
 
+Mazes are randomly generated.
+
 ```
 #######
 #.#...#
