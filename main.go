@@ -110,8 +110,18 @@ func (g *Game) Run() error {
 }
 
 func main() {
+	// 迷路の高さ
+	var height int
+	// 迷路の幅
+	var width int
+	// 標準入力から迷路の高さを取得
+	fmt.Print("Height? ")
+	fmt.Scan(&height)
+	// 標準入力から迷路の幅を取得
+	fmt.Print("Width? ")
+	fmt.Scan(&width)
 	// 迷路の初期化
-	m := Maze{7, 7, nil, 0, 0}
+	m := Maze{height, width, nil, 0, 0}
 	// プレイヤーの初期化
 	p := Player{0, 0}
 	// ゲームの実行
