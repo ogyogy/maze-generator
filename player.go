@@ -23,6 +23,22 @@ func (p *Player) Move(m Maze, direction int) error {
 		newX--
 	} else if direction == RIGHT {
 		newX++
+	} else if direction == FAST_UP {
+		for m.Maze[newY-1][newX] == PATH {
+			newY--
+		}
+	} else if direction == FAST_DOWN {
+		for m.Maze[newY+1][newX] == PATH {
+			newY++
+		}
+	} else if direction == FAST_LEFT {
+		for m.Maze[newY][newX-1] == PATH {
+			newX--
+		}
+	} else if direction == FAST_RIGHT {
+		for m.Maze[newY][newX+1] == PATH {
+			newX++
+		}
 	}
 	if newX < 0 || newY < 0 || newX > m.Width-1 || newY > m.Height-1 {
 		// 移動先の座標が範囲外の場合エラー
