@@ -17,6 +17,10 @@ const (
 	DOWN
 	LEFT
 	RIGHT
+	FAST_UP
+	FAST_DOWN
+	FAST_LEFT
+	FAST_RIGHT
 )
 
 type Game struct {
@@ -89,6 +93,14 @@ func (g *Game) Run() error {
 			d = UP
 		} else if s == "l" {
 			d = RIGHT
+		} else if s == "H" {
+			d = FAST_LEFT
+		} else if s == "J" {
+			d = FAST_DOWN
+		} else if s == "K" {
+			d = FAST_UP
+		} else if s == "L" {
+			d = FAST_RIGHT
 		} else if s == "q" {
 			break
 		} else {
