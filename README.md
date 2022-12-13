@@ -37,10 +37,14 @@ move (hjkl), quit (q):
 
 ## Command
 
-| Key | Action     |
-| --- | ---------- |
-| h   | Move left  |
-| j   | Move down  |
-| k   | Move up    |
-| l   | Move right |
-| q   | Quit       |
+| Key | Action          |
+| --- | --------------- |
+| h   | Move left       |
+| j   | Move down       |
+| k   | Move up         |
+| l   | Move right      |
+| H   | Fast move left  |
+| J   | Fast move down  |
+| K   | Fast move up    |
+| L   | Fast move right |
+| q   | Quit            |
